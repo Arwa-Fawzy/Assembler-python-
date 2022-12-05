@@ -1,8 +1,8 @@
-# Project 2 : Basic Computer Assembler
+# Project name : Basic Computer Assembler
 
 Welcome to Project 2 of CSE311 Computer Organization!
 
-In this project, you will be building a very simple assembler for the Basic Computer Instruction Set Architecture as per M.Mano's book "Computer System Architecture" [1].
+In this project, I will be building a very simple assembler for the Basic Computer Instruction Set Architecture as per M.Mano's book "Computer System Architecture" 
 
 The Basic Computer has a 16-bit instruction divided into 12-bit address, 3-bit opcode and 1-bit for addressing mode.
 
@@ -41,28 +41,28 @@ The assembly code supported by this simple assembler must stick to some basic ru
 * Similar to the last point, labels created using the `HEX` pseudo instruction should also be without any special characters and should directly write the hexadecimal digits i.e. `AC41`.
 
 
-You should see an example at `testcode.asm` and `testcode.mc` for the assembly code and the assembled binary machine code, respectively. In the output file, the first column corresponds to the memory location (12 bits), and the second column corresponds to the translated binary representation of the instructions (16 bits).
+First, I check an example at `testcode.asm` and `testcode.mc` for the assembly code and the assembled binary machine code, respectively. In the output file, the first column corresponds to the memory location (12 bits), and the second column corresponds to the translated binary representation of the instructions (16 bits).
 
 ## assembler.py
 
-The class `Assembler` has 6 methods already implemented for you. It has 7 data structures to save the input assembly code, address symbol table, the instruction set tables and other important information necessary for the assembly. Please read the code carefully before attempting to make any modifications, understand the purpose of every property and method first.
+The class `Assembler` has 6 methods already implemented. It has 7 data structures to save the input assembly code, address symbol table, the instruction set tables and other important information necessary for the assembly. 
 
 After the second pass, the private property `__bin` (of type dict) should have the binary representation of every assembly instructions as values and their location in memory as keys. The public method `assemble()` returns that object after completing the second pass so that it can be used to store the binary output in a file or send it to the standard output.
 
 
 
-## Your task
+## The project aim
 
-Your task in this project is to write the code of the `__first_pass(self)` and `__second_pass(self)` methods of the `Assembler` class. The flowchart of the first pass and second pass can be found in Mano's book[1]. You should use the implemented methods when needed or write your own methods to complete this task. You must stick to the language rules and to explained output format (dictionary `__bin`).
+The aim of this project is to write the code of the `__first_pass(self)` and `__second_pass(self)` methods of the `Assembler` class. The flowchart of the first pass and second pass can be found in Mano's book[1]. I used the implemented methods when needed or write my own methods to complete this target. 
 
-Please make sure that you translate all instructions and locations into binary format, and that all binary locations (or addresses) are 12-bit and all binary instructions are 16-bit. If a binary number's length is less than 12 or 16, it must be left-padded with zeros. Moreover, notice that the keys and values at `__bin` are binary numbers of type string i.e. `'00111010011'` not actual integers.
+Eventually, I translated all instructions and locations into binary format, and that all binary locations (or addresses) are 12-bit and all binary instructions are 16-bit. If a binary number's length is less than 12 or 16, it must be left-padded with zeros. Moreover, notice that the keys and values at `__bin` are binary numbers of type string i.e. `'00111010011'` not actual integers.
 
-Once your implement the two functions correctly, run `testscript.py` and you should see the following:
+The output should be 
 ```
 Assembling...
 TEST PASSED
 ```
-If your implementation has an issue, you should see `TEST FAILED` instead.
+If the implementation has an issue, it will be `TEST FAILED` instead.
 
 ## Appendix
 
@@ -119,5 +119,5 @@ There are four more instructions that can appear in the assembly code which does
 [1] M. Mano, “Computer System Architecture,” Pearson Publisher, 3rd Edition, 1992.
 
 ## Credits
-
 This project was created by Mostafa Soliman and Osama Adel, 12 Decemeber 2020.
+This code was written by Arwa Fawzy, 5 December 2022.
