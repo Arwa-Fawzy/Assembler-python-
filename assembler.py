@@ -183,13 +183,13 @@ class Assembler(object):
                 #convert the instruction machine code to binary if it is hex
                 if self.__asm[i][1]=='hex':
                     self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__format2bin(self.__asm[i][2],'hex',16)
-                    lc+=1
+                    lc=lc+1
                     
                 #convert the instruction machine code to binary if it is hex
                 
                 elif self.__asm[i][1]=='dec':
                     self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__format2bin(self.__asm[i][2],'dec',16)
-                    lc+=1
+                    lc=lc+1
                     
                 #check if there is a label, the the instruction is the second word 
                 
