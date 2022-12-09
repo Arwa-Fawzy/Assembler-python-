@@ -152,13 +152,12 @@ class Assembler(object):
                 self.__address_symbol_table[self.__asm[i][0][0:3]]=self.__format2bin(str(lc),'dec',12)
                 #increment the program counter 
                 lc=lc+1
-            #check if the instruction is end to break
-            elif self.__asm[i][0]=='end':
-                #print(self.__address_symbol_table)
-                return
             #check if the instruction is org to assign its value to the lc as intial step
             elif self.__asm[i][0]=='org':
                 lc=int(self.__asm[i][1], 16)
+            #check if the instruction is end to break
+            elif self.__asm[i][0]=='end':
+                return
             else:
                 lc=lc+1
             
@@ -173,44 +172,64 @@ class Assembler(object):
         """
         lc=0
         for i in range(len(self.__asm)):
-            if self.__asm[i][0]=='end':
-                return
-            elif self.__asm[i][0]=='org':
-                lc=int(self.__asm[i][1],16)
-            #check if the instruction line is 3 as the index of instruction will be 1 not 0
-            elif len(self.__asm[i])==3:
+            if self.__asm[i][0] not in self.__mri_table and self.__asm[i][0] not in self.__ioi_table and self.__asm[i][0] not in self.__rri_table:
+                if self.__asm[i][0]=='end':
+                    return
+                elif self.__asm[i][0]=='org':
+                    lc=int(self.__asm[i][1],16)
+                    
+            #check if the instruction line has a lebel then the index of instruction will be 1 not 0
+            elif (self.__islabel(self.__asm[i][0])):
                 #convert the instruction machine code to binary if it is hex
                 if self.__asm[i][1]=='hex':
                     self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__format2bin(self.__asm[i][2],'hex',16)
                     lc+=1
+                    
                 #convert the instruction machine code to binary if it is hex
+                
                 elif self.__asm[i][1]=='dec':
                     self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__format2bin(self.__asm[i][2],'dec',16)
                     lc+=1
+                    
                 #check if there is a label, the the instruction is the second word 
+                
                 if self.__islabel(self.__asm[i][0]):
                     instruction=self.__asm[i][1]
                 #the instruction is the first word as there is no label 
                 else:
                     instruction=self.__asm[i][0]
-                # assign the last bit (I flip flop) to 0 as all of the file inputs is direct addressing 
-                I_bit='0'
-                #check if it is memory reference instruction 
-                if instruction in self.__mri_table.keys():
+                    
+                # assign the last bit (I flip flop) to 0 or 1 depending it is direct or indirect address
+                
+                if (len(self.__asm[i]==4) and self.__asm[i]=='1'):
+                    I_BIT=1
+                elif (len(self.__asm[i]<4)): 
+                    I_BIT=0
+                 
+                #check if it is register reference instruction 
+                
+                if instruction in self.__rri_table.keys(): 
+                    #assemble the instruction and store in location given by lc 
+                    self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__rri_table[instruction]
+                    lc=lc+1
+                    
+                #check if it is input/output instruction
+                
+                elif instruction in self.__ioi_table.keys():
+                    #assemble the instruction and store in location given by lc 
+                    self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__ioi_table[instruction]
+                    lc=lc+1
+                    
+                #check if it is memory reference instruction
+              
+                elif instruction in self.__mri_table.keys():
                     #get 12 bits address from the table 
                     address_bits=self.__address_symbol_table[self.__asm[i][1]]
                     #get the opcode from the memory table
                     operation_code=self.__mri_table[instruction]
                     #assemble all the parts of binary instruction and store in location given by lc 
-                    self.__bin[self.__format2bin(str(lc),'dec',12)]=I_bit+ operation_code+ address_bits
-                    lc+=1
-                #check if it is register reference instruction 
-                elif instruction in self.__rri_table.keys(): 
-                    #assemble the instruction and store in location given by lc 
-                    self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__rri_table[instruction]
-                    lc+=1
-                #check if it is input/output instruction 
-                elif instruction in self.__ioi_table.keys():
-                    #assemble the instruction and store in location given by lc 
-                    self.__bin[self.__format2bin(str(lc),'dec',12)]=self.__ioi_table[instruction]
-                    lc+=1
+                    self.__bin[self.__format2bin(str(lc),'dec',12)]=I_BIT+ operation_code+ address_bits
+                    lc=lc+1
+                
+                
+                
