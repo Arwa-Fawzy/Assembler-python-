@@ -201,7 +201,7 @@ class Assembler(object):
                     
                 # assign the last bit (I flip flop) to 0 or 1 depending it is direct or indirect address
                 
-                if (len(self.__asm[i]==4) and self.__asm[i]=='1'):
+                if (len(self.__asm[i]==4) and self.__asm[i][2]=='1'):
                     I_BIT=1
                 elif (len(self.__asm[i]<4)): 
                     I_BIT=0
