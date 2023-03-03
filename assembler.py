@@ -153,11 +153,13 @@ class Assembler(object):
                 #increment the program counter 
                 lc=lc+1
             #check if the instruction is org to assign its value to the lc as intial step
-            elif self.__asm[i][0]=='org':
-                lc=int(self.__asm[i][1], 16)
-            #check if the instruction is end to break
-            elif self.__asm[i][0]=='end':
-                return
+            
+            elif self.__asm[i][0] not in self.__mri_table and self.__asm[i][0] not in self.__ioi_table and self.__asm[i][0] not in self.__rri_table:
+                if self.__asm[i][0]=='org':
+                    lc=int(self.__asm[i][1], 16)
+                #check if the instruction is end to break
+                elif self.__asm[i][0]=='end':
+                    return
             else:
                 lc=lc+1
             
